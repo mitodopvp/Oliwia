@@ -3,365 +3,615 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pakiet Wspomnień</title>
+  <title>Filip i Oliwia</title>
   <style>
     :root {
-      --bg: #f6efe7;
-      --surface: rgba(255, 252, 247, 0.78);
-      --surface-strong: #fffaf4;
-      --text: #241712;
-      --muted: #6e584f;
-      --accent: #c8643f;
-      --accent-dark: #9f482a;
-      --line: rgba(36, 23, 18, 0.08);
-      --shadow: 0 28px 70px rgba(89, 48, 31, 0.12);
+      --bg: #140f13;
+      --bg-soft: #21181f;
+      --surface: rgba(255, 245, 248, 0.08);
+      --surface-strong: rgba(255, 245, 248, 0.14);
+      --line: rgba(255, 228, 236, 0.12);
+      --text: #fff7fa;
+      --muted: #d8b9c4;
+      --accent: #ff8fb1;
+      --accent-strong: #ff5e8d;
+      --accent-soft: #ffd8e5;
+      --shadow: 0 24px 80px rgba(0, 0, 0, 0.34);
     }
 
     * {
       box-sizing: border-box;
     }
 
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
       margin: 0;
       min-height: 100vh;
-      font-family: Georgia, "Times New Roman", serif;
+      font-family: Arial, sans-serif;
       color: var(--text);
       background:
-        radial-gradient(circle at top left, rgba(200, 100, 63, 0.16), transparent 32%),
-        radial-gradient(circle at bottom right, rgba(155, 103, 72, 0.12), transparent 28%),
-        linear-gradient(180deg, #fbf6ef 0%, var(--bg) 100%);
-      display: grid;
-      place-items: center;
-      padding: 32px 20px;
+        radial-gradient(circle at top, rgba(255, 94, 141, 0.28), transparent 34%),
+        radial-gradient(circle at bottom right, rgba(255, 143, 177, 0.15), transparent 28%),
+        linear-gradient(180deg, #1a1318 0%, var(--bg) 45%, #0d090d 100%);
     }
 
-    .section {
-      width: min(1120px, 100%);
-      display: grid;
-      grid-template-columns: 1.05fr 0.95fr;
-      gap: 28px;
-      align-items: stretch;
+    img {
+      display: block;
+      width: 100%;
     }
 
-    .intro,
-    .card {
-      border: 1px solid var(--line);
-      border-radius: 28px;
-      box-shadow: var(--shadow);
+    a {
+      color: inherit;
+    }
+
+    .page {
+      width: min(100%, 560px);
+      margin: 0 auto;
+      padding-bottom: 96px;
+    }
+
+    .hero {
+      min-height: 100svh;
+      position: relative;
+      display: flex;
+      align-items: flex-end;
+      overflow: hidden;
+      background:
+        linear-gradient(180deg, rgba(13, 9, 13, 0.04) 0%, rgba(13, 9, 13, 0.88) 82%),
+        url("./assets/photo-3.png") center 30% / cover no-repeat;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: auto 0 0;
+      height: 160px;
+      background: linear-gradient(180deg, transparent, rgba(20, 15, 19, 0.95));
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      padding: 28px 22px 32px;
+    }
+
+    .overline {
+      display: inline-block;
+      margin: 0 0 12px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(255, 247, 250, 0.12);
+      border: 1px solid rgba(255, 247, 250, 0.15);
+      color: var(--accent-soft);
+      font-size: 0.72rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
       backdrop-filter: blur(14px);
     }
 
-    .intro {
-      padding: 56px;
-      background: linear-gradient(180deg, rgba(255, 250, 244, 0.86), rgba(255, 247, 239, 0.92));
-      position: relative;
-      overflow: hidden;
+    h1,
+    h2,
+    h3,
+    p {
+      margin: 0;
     }
 
-    .intro::after {
-      content: "";
-      position: absolute;
-      right: -80px;
-      bottom: -80px;
-      width: 240px;
-      height: 240px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(200, 100, 63, 0.18), transparent 68%);
+    .hero h1 {
+      max-width: 8ch;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(3.2rem, 13vw, 5rem);
+      line-height: 0.92;
+      letter-spacing: -0.05em;
     }
 
-    .eyebrow {
-      display: inline-flex;
-      align-items: center;
+    .hero-copy {
+      margin-top: 14px;
+      max-width: 24ch;
+      color: rgba(255, 247, 250, 0.88);
+      line-height: 1.65;
+      font-size: 1rem;
+    }
+
+    .hero-actions {
+      display: flex;
       gap: 10px;
-      font-family: Arial, sans-serif;
-      font-size: 12px;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--accent-dark);
-      margin-bottom: 22px;
-    }
-
-    .eyebrow::before {
-      content: "";
-      width: 34px;
-      height: 1px;
-      background: currentColor;
-    }
-
-    h1 {
-      margin: 0 0 18px;
-      font-size: clamp(2.7rem, 5vw, 4.8rem);
-      line-height: 0.94;
-      letter-spacing: -0.04em;
-      max-width: 10ch;
-    }
-
-    .lead {
-      margin: 0 0 30px;
-      max-width: 52ch;
-      font-family: Arial, sans-serif;
-      font-size: 1.05rem;
-      line-height: 1.8;
-      color: var(--muted);
-    }
-
-    .points {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 14px;
-      margin: 0;
-      padding: 0;
-      list-style: none;
-    }
-
-    .points li {
-      padding: 16px 18px;
-      border: 1px solid rgba(36, 23, 18, 0.07);
-      border-radius: 18px;
-      background: rgba(255, 255, 255, 0.44);
-      font-family: Arial, sans-serif;
-      color: #3f302a;
-    }
-
-    .card {
-      padding: 32px;
-      background: rgba(255, 252, 247, 0.9);
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-
-    .card-top {
-      display: flex;
-      justify-content: space-between;
-      gap: 16px;
-      align-items: start;
-      margin-bottom: 26px;
-    }
-
-    .card-title {
-      margin: 0;
-      font-size: 1.65rem;
-    }
-
-    .price-box {
-      text-align: right;
-      font-family: Arial, sans-serif;
-      white-space: nowrap;
-    }
-
-    .old-price {
-      display: block;
-      font-size: 0.95rem;
-      color: #9c857c;
-      text-decoration: line-through;
-      margin-bottom: 4px;
-    }
-
-    .new-price {
-      display: block;
-      font-size: 2.2rem;
-      font-weight: 700;
-      color: var(--accent-dark);
-    }
-
-    .tag {
-      display: inline-block;
-      margin-top: 6px;
-      padding: 7px 10px;
-      border-radius: 999px;
-      background: rgba(200, 100, 63, 0.12);
-      color: var(--accent-dark);
-      font-size: 0.8rem;
-      font-weight: 700;
-    }
-
-    .info-block {
-      border-top: 1px solid var(--line);
-      padding-top: 22px;
       margin-top: 22px;
     }
 
-    .info-label {
-      margin: 0 0 10px;
-      font-family: Arial, sans-serif;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      font-size: 0.78rem;
-      color: #8b7268;
+    .button {
+      appearance: none;
+      border: 0;
+      border-radius: 999px;
+      padding: 14px 18px;
+      font-weight: 700;
+      font-size: 0.94rem;
+      text-decoration: none;
+      cursor: pointer;
+      transition: transform 180ms ease, background 180ms ease, color 180ms ease;
     }
 
-    .info-text {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      color: #44352f;
-      line-height: 1.7;
+    .button:active {
+      transform: scale(0.98);
     }
 
-    .deliverables {
-      margin: 24px 0 28px;
-      padding: 0;
-      list-style: none;
+    .button-primary {
+      background: linear-gradient(180deg, var(--accent) 0%, var(--accent-strong) 100%);
+      color: white;
+      box-shadow: 0 14px 30px rgba(255, 94, 141, 0.24);
+    }
+
+    .button-secondary {
+      background: rgba(255, 247, 250, 0.1);
+      border: 1px solid rgba(255, 247, 250, 0.14);
+      color: var(--accent-soft);
+      backdrop-filter: blur(12px);
+    }
+
+    .section {
+      padding: 22px;
+    }
+
+    .stack {
       display: grid;
-      gap: 12px;
-    }
-
-    .deliverables li {
-      display: flex;
       gap: 14px;
-      padding: 14px 0;
-      border-bottom: 1px solid rgba(36, 23, 18, 0.07);
-      font-family: Arial, sans-serif;
     }
 
-    .deliverables li:last-child {
-      border-bottom: none;
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      padding: 22px 18px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(20px);
     }
 
-    .badge {
-      width: 34px;
-      height: 34px;
-      flex: 0 0 34px;
-      display: grid;
-      place-items: center;
-      border-radius: 50%;
-      background: #f3dfd5;
-      color: var(--accent-dark);
-      font-weight: 700;
+    .section-title {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 2rem;
+      line-height: 1;
+      letter-spacing: -0.04em;
+      margin-bottom: 10px;
     }
 
-    .item-title {
-      display: block;
-      margin-bottom: 4px;
-      font-weight: 700;
-    }
-
-    .item-copy {
+    .section-copy {
       color: var(--muted);
+      line-height: 1.7;
+      font-size: 0.98rem;
+    }
+
+    .countdown-grid {
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .count-card {
+      padding: 16px 14px;
+      border-radius: 22px;
+      background: rgba(255, 245, 248, 0.05);
+      border: 1px solid rgba(255, 245, 248, 0.08);
+      text-align: center;
+    }
+
+    .count-value {
+      display: block;
+      font-size: clamp(1.8rem, 8vw, 2.3rem);
+      font-weight: 700;
+      color: var(--accent-soft);
+      letter-spacing: -0.04em;
+    }
+
+    .count-label {
+      display: block;
+      margin-top: 4px;
+      font-size: 0.82rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .quote {
+      padding: 0 2px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 1.5rem;
+      line-height: 1.45;
+      color: var(--accent-soft);
+    }
+
+    .memory-photo {
+      margin-top: 18px;
+      aspect-ratio: 4 / 5;
+      border-radius: 28px;
+      overflow: hidden;
+    }
+
+    .memory-photo img {
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .traits {
+      display: grid;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .trait {
+      padding: 14px 16px;
+      border-radius: 18px;
+      background: rgba(255, 245, 248, 0.05);
+      border: 1px solid rgba(255, 245, 248, 0.07);
+      color: #ffeaf1;
       line-height: 1.6;
     }
 
-    .cta {
-      display: inline-flex;
-      justify-content: center;
-      align-items: center;
-      width: 100%;
-      padding: 18px 24px;
-      border-radius: 18px;
-      background: linear-gradient(180deg, var(--accent) 0%, var(--accent-dark) 100%);
-      color: #fff9f5;
-      text-decoration: none;
-      font-family: Arial, sans-serif;
+    .quiz-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .quiz-card {
+      padding: 16px;
+      border-radius: 22px;
+      background: rgba(255, 245, 248, 0.05);
+      border: 1px solid rgba(255, 245, 248, 0.08);
+    }
+
+    .quiz-question {
       font-weight: 700;
-      letter-spacing: 0.02em;
-      transition: transform 160ms ease, box-shadow 160ms ease;
-      box-shadow: 0 18px 34px rgba(159, 72, 42, 0.24);
+      line-height: 1.5;
     }
 
-    .cta:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 24px 42px rgba(159, 72, 42, 0.28);
+    .answers {
+      display: grid;
+      gap: 10px;
+      margin-top: 14px;
     }
 
-    @media (max-width: 900px) {
+    .answer {
+      width: 100%;
+      text-align: left;
+      border: 1px solid rgba(255, 245, 248, 0.08);
+      background: rgba(255, 245, 248, 0.04);
+      color: #fff7fa;
+      border-radius: 16px;
+      padding: 13px 14px;
+      font-size: 0.95rem;
+    }
+
+    .answer.correct {
+      background: rgba(122, 228, 167, 0.16);
+      border-color: rgba(122, 228, 167, 0.35);
+      color: #dfffe8;
+    }
+
+    .answer.wrong {
+      background: rgba(255, 124, 156, 0.16);
+      border-color: rgba(255, 124, 156, 0.35);
+      color: #ffe5ec;
+    }
+
+    .quiz-feedback {
+      margin-top: 12px;
+      min-height: 22px;
+      color: var(--muted);
+      font-size: 0.92rem;
+      line-height: 1.5;
+    }
+
+    .gallery-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .gallery-grid {
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .gallery-item {
+      position: relative;
+      overflow: hidden;
+      border-radius: 22px;
+      aspect-ratio: 3 / 4;
+      background: #2a1b24;
+    }
+
+    .gallery-item.tall {
+      grid-column: span 2;
+      aspect-ratio: 4 / 5;
+    }
+
+    .gallery-item img {
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .gallery-caption {
+      position: absolute;
+      inset: auto 10px 10px 10px;
+      padding: 10px 12px;
+      border-radius: 16px;
+      background: rgba(12, 8, 11, 0.52);
+      border: 1px solid rgba(255, 247, 250, 0.08);
+      backdrop-filter: blur(10px);
+      font-size: 0.84rem;
+      line-height: 1.45;
+    }
+
+    .footer-note {
+      margin-top: 10px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.92rem;
+      line-height: 1.6;
+    }
+
+    @media (min-width: 700px) {
+      .page {
+        width: min(100%, 920px);
+      }
+
       .section {
-        grid-template-columns: 1fr;
+        padding: 32px;
       }
 
-      .intro {
-        padding: 40px 28px;
+      .stack.two {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
       }
 
-      .card {
-        padding: 28px 22px;
+      .gallery-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
       }
 
-      .points {
-        grid-template-columns: 1fr;
-      }
-
-      .card-top {
-        flex-direction: column;
-      }
-
-      .price-box {
-        text-align: left;
+      .gallery-item.tall {
+        grid-column: span 2;
       }
     }
   </style>
 </head>
 <body>
-  <main class="section">
-    <section class="intro">
-      <span class="eyebrow">Oferta specjalna</span>
-      <h1>Co dokładnie otrzymasz?</h1>
-      <p class="lead">
-        Sekcja została zbudowana w podobnym klimacie do przykładu z Timecap: miękki premium look,
-        czytelna oferta, mocne korzyści i prosty przycisk, który prowadzi użytkownika dalej.
-      </p>
-
-      <ul class="points">
-        <li>Prywatny dostęp bez instalacji aplikacji</li>
-        <li>Gotowy format do wręczenia jako prezent</li>
-        <li>Układ nastawiony na emocje i prostotę</li>
-        <li>Nowoczesna karta oferty z czytelnym CTA</li>
-      </ul>
+  <main class="page">
+    <section class="hero">
+      <div class="hero-content">
+        <p class="overline">Nasza kapsuła czasu</p>
+        <h1>Filip i Oliwia</h1>
+        <p class="hero-copy">
+          Od 28 marca 2026 zapisujemy małe chwile, które dla nas znaczą wszystko.
+          Ta strona jest po to, żebyś mogła wracać do nich zawsze, kiedy tylko zechcesz.
+        </p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="#licznik">Zobacz licznik</a>
+          <a class="button button-secondary" href="#quiz">Nasz quiz</a>
+        </div>
+      </div>
     </section>
 
-    <section class="card">
-      <div>
-        <div class="card-top">
-          <div>
-            <p class="eyebrow">Pakiet digital</p>
-            <h2 class="card-title">Piękna forma, którą możesz wręczyć od razu</h2>
-          </div>
+    <section class="section" id="licznik">
+      <div class="panel">
+        <p class="overline">Od kiedy jesteśmy razem</p>
+        <h2 class="section-title">Każdy dzień z Tobą jest moim ulubionym.</h2>
+        <p class="section-copy">
+          Liczymy wspólnie czas od naszej pierwszej randki: <strong>28.03.2026</strong>.
+        </p>
 
-          <div class="price-box">
-            <span class="old-price">99 zł</span>
-            <span class="new-price">49 zł</span>
-            <span class="tag">Promocja limitowana</span>
+        <div class="countdown-grid">
+          <div class="count-card">
+            <span class="count-value" id="days">0</span>
+            <span class="count-label">Dni</span>
+          </div>
+          <div class="count-card">
+            <span class="count-value" id="hours">0</span>
+            <span class="count-label">Godzin</span>
+          </div>
+          <div class="count-card">
+            <span class="count-value" id="minutes">0</span>
+            <span class="count-label">Minut</span>
+          </div>
+          <div class="count-card">
+            <span class="count-value" id="seconds">0</span>
+            <span class="count-label">Sekund</span>
           </div>
         </div>
-
-        <div class="info-block">
-          <p class="info-label">Na maila otrzymujesz</p>
-          <p class="info-text">Prywatny link, kod QR oraz gotowy dostęp do strony, którą możesz od razu wysłać albo elegancko wręczyć.</p>
-        </div>
-
-        <ul class="deliverables">
-          <li>
-            <span class="badge">01</span>
-            <div>
-              <span class="item-title">Ekran startowy</span>
-              <span class="item-copy">Mocne pierwsze wrażenie, pytanie otwierające i subtelna animacja wejścia.</span>
-            </div>
-          </li>
-          <li>
-            <span class="badge">02</span>
-            <div>
-              <span class="item-title">Galeria wspomnień</span>
-              <span class="item-copy">Zdjęcia, krótkie opisy i ważne daty ułożone w emocjonalną historię.</span>
-            </div>
-          </li>
-          <li>
-            <span class="badge">03</span>
-            <div>
-              <span class="item-title">Licznik czasu</span>
-              <span class="item-copy">Sekcja pokazująca, ile już minęło albo ile zostało do konkretnego dnia.</span>
-            </div>
-          </li>
-          <li>
-            <span class="badge">04</span>
-            <div>
-              <span class="item-title">Quiz lub personalizacja</span>
-              <span class="item-copy">Dodatkowy element, który angażuje i sprawia, że całość jest bardziej osobista.</span>
-            </div>
-          </li>
-        </ul>
       </div>
+    </section>
 
-      <a class="cta" href="#kontakt">Chcę taki blok u siebie</a>
+    <section class="section">
+      <div class="stack two">
+        <article class="panel">
+          <p class="overline">Kilka słów od serca</p>
+          <p class="quote">
+            Kocham Cię za poczucie humoru, za Twój piękny wygląd, za charakter
+            i za to, jaka jesteś rodzinna. Przy Tobie wszystko ma więcej sensu.
+          </p>
+        </article>
+
+        <article class="panel">
+          <p class="overline">Za co Cię kocham</p>
+          <div class="traits">
+            <div class="trait">Za to, że potrafisz rozbawić mnie nawet wtedy, gdy dzień jest ciężki.</div>
+            <div class="trait">Za Twoje piękno, które widać nie tylko na zdjęciach, ale też w tym jaka jesteś.</div>
+            <div class="trait">Za charakter, przy którym czuję spokój, bliskość i coś prawdziwego.</div>
+            <div class="trait">Za to, że jesteś tak bardzo rodzinna i ciepła dla swoich ludzi.</div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="panel">
+        <p class="overline">Nasze wspomnienia</p>
+        <h2 class="section-title">Najładniejsze momenty mają Twoją twarz.</h2>
+        <p class="section-copy">
+          Kilka kadrów, do których zawsze warto wracać.
+        </p>
+        <div class="memory-photo">
+          <img src="./assets/photo-1.png" alt="Oliwia w czerwonej sukience">
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="quiz">
+      <div class="panel">
+        <p class="overline">Mały test dla Oliwii</p>
+        <h2 class="section-title">Jak dobrze mnie znasz?</h2>
+        <p class="section-copy">
+          Dwa szybkie pytania, żeby było trochę słodko i trochę zabawnie.
+        </p>
+
+        <div class="quiz-list">
+          <article class="quiz-card" data-correct="28.03.2026">
+            <p class="quiz-question">Kiedy była nasza pierwsza randka?</p>
+            <div class="answers">
+              <button class="answer" type="button">12.03.2026</button>
+              <button class="answer" type="button">28.03.2026</button>
+              <button class="answer" type="button">04.04.2026</button>
+              <button class="answer" type="button">30.03.2026</button>
+            </div>
+            <p class="quiz-feedback"></p>
+          </article>
+
+          <article class="quiz-card" data-correct="Włoska">
+            <p class="quiz-question">Jaka kuchnia jest moją ulubioną?</p>
+            <div class="answers">
+              <button class="answer" type="button">Amerykańska</button>
+              <button class="answer" type="button">Włoska</button>
+              <button class="answer" type="button">Meksykańska</button>
+              <button class="answer" type="button">Azjatycka</button>
+            </div>
+            <p class="quiz-feedback"></p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="panel">
+        <div class="gallery-head">
+          <div>
+            <p class="overline">Galeria</p>
+            <h2 class="section-title">Ty, my i nasze chwile.</h2>
+          </div>
+        </div>
+
+        <div class="gallery-grid">
+          <figure class="gallery-item tall">
+            <img src="./assets/photo-2.png" alt="Oliwia w lustrze">
+            <figcaption class="gallery-caption">Ta energia, ten klimat i Ty.</figcaption>
+          </figure>
+
+          <figure class="gallery-item">
+            <img src="./assets/photo-4.jpg" alt="Portret Oliwii">
+            <figcaption class="gallery-caption">Najpiękniejszy uśmiech.</figcaption>
+          </figure>
+
+          <figure class="gallery-item">
+            <img src="./assets/photo-5.jpg" alt="Wspólne czarno-białe zdjęcie">
+            <figcaption class="gallery-caption">Nasze śmieszne momenty też są najważniejsze.</figcaption>
+          </figure>
+
+          <figure class="gallery-item">
+            <img src="./assets/photo-6.jpg" alt="Bukiet kwiatów">
+            <figcaption class="gallery-caption">Małe gesty, które znaczą bardzo dużo.</figcaption>
+          </figure>
+
+          <figure class="gallery-item">
+            <img src="./assets/photo-7.jpg" alt="Wspólne selfie w słońcu">
+            <figcaption class="gallery-caption">Spokój jest tam, gdzie jesteś Ty.</figcaption>
+          </figure>
+
+          <figure class="gallery-item tall">
+            <img src="./assets/photo-8.jpg" alt="Zabawne wspólne zdjęcie">
+            <figcaption class="gallery-caption">Bo oprócz romantycznie, jest też po naszemu.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="panel">
+        <p class="overline">Na koniec</p>
+        <h2 class="section-title">Dziękuję, że jesteś.</h2>
+        <p class="section-copy">
+          Chcę z Tobą tworzyć jeszcze więcej takich wspomnień. Ta kapsuła to dopiero początek.
+        </p>
+        <p class="footer-note">
+          Dla Oliwii, z całego serca.
+        </p>
+      </div>
     </section>
   </main>
+
+  <script>
+    const startDate = new Date("2026-03-28T00:00:00");
+    const countdownEls = {
+      days: document.getElementById("days"),
+      hours: document.getElementById("hours"),
+      minutes: document.getElementById("minutes"),
+      seconds: document.getElementById("seconds")
+    };
+
+    function updateCounter() {
+      const now = new Date();
+      const diff = Math.max(0, now - startDate);
+
+      const day = 1000 * 60 * 60 * 24;
+      const hour = 1000 * 60 * 60;
+      const minute = 1000 * 60;
+
+      const days = Math.floor(diff / day);
+      const hours = Math.floor((diff % day) / hour);
+      const minutes = Math.floor((diff % hour) / minute);
+      const seconds = Math.floor((diff % minute) / 1000);
+
+      countdownEls.days.textContent = String(days);
+      countdownEls.hours.textContent = String(hours).padStart(2, "0");
+      countdownEls.minutes.textContent = String(minutes).padStart(2, "0");
+      countdownEls.seconds.textContent = String(seconds).padStart(2, "0");
+    }
+
+    updateCounter();
+    setInterval(updateCounter, 1000);
+
+    const quizCards = document.querySelectorAll(".quiz-card");
+
+    quizCards.forEach((card) => {
+      const correctAnswer = card.dataset.correct;
+      const answers = card.querySelectorAll(".answer");
+      const feedback = card.querySelector(".quiz-feedback");
+
+      answers.forEach((button) => {
+        button.addEventListener("click", () => {
+          answers.forEach((answer) => {
+            answer.disabled = true;
+            answer.classList.remove("correct", "wrong");
+          });
+
+          if (button.textContent === correctAnswer) {
+            button.classList.add("correct");
+            feedback.textContent = "Perfekcyjnie. Oliwia zna Cię naprawdę dobrze.";
+          } else {
+            button.classList.add("wrong");
+            answers.forEach((answer) => {
+              if (answer.textContent === correctAnswer) {
+                answer.classList.add("correct");
+              }
+            });
+            feedback.textContent = "Blisko, ale poprawna odpowiedź już się świeci.";
+          }
+        });
+      });
+    });
+  </script>
 </body>
 </html>
