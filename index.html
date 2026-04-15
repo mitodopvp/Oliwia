@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pakiet Wspomnień</title>
+  <style>
+    :root {
+      --bg: #f6efe7;
+      --surface: rgba(255, 252, 247, 0.78);
+      --surface-strong: #fffaf4;
+      --text: #241712;
+      --muted: #6e584f;
+      --accent: #c8643f;
+      --accent-dark: #9f482a;
+      --line: rgba(36, 23, 18, 0.08);
+      --shadow: 0 28px 70px rgba(89, 48, 31, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Georgia, "Times New Roman", serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(200, 100, 63, 0.16), transparent 32%),
+        radial-gradient(circle at bottom right, rgba(155, 103, 72, 0.12), transparent 28%),
+        linear-gradient(180deg, #fbf6ef 0%, var(--bg) 100%);
+      display: grid;
+      place-items: center;
+      padding: 32px 20px;
+    }
+
+    .section {
+      width: min(1120px, 100%);
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 28px;
+      align-items: stretch;
+    }
+
+    .intro,
+    .card {
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+    }
+
+    .intro {
+      padding: 56px;
+      background: linear-gradient(180deg, rgba(255, 250, 244, 0.86), rgba(255, 247, 239, 0.92));
+      position: relative;
+      overflow: hidden;
+    }
+
+    .intro::after {
+      content: "";
+      position: absolute;
+      right: -80px;
+      bottom: -80px;
+      width: 240px;
+      height: 240px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(200, 100, 63, 0.18), transparent 68%);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: Arial, sans-serif;
+      font-size: 12px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent-dark);
+      margin-bottom: 22px;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 34px;
+      height: 1px;
+      background: currentColor;
+    }
+
+    h1 {
+      margin: 0 0 18px;
+      font-size: clamp(2.7rem, 5vw, 4.8rem);
+      line-height: 0.94;
+      letter-spacing: -0.04em;
+      max-width: 10ch;
+    }
+
+    .lead {
+      margin: 0 0 30px;
+      max-width: 52ch;
+      font-family: Arial, sans-serif;
+      font-size: 1.05rem;
+      line-height: 1.8;
+      color: var(--muted);
+    }
+
+    .points {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .points li {
+      padding: 16px 18px;
+      border: 1px solid rgba(36, 23, 18, 0.07);
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.44);
+      font-family: Arial, sans-serif;
+      color: #3f302a;
+    }
+
+    .card {
+      padding: 32px;
+      background: rgba(255, 252, 247, 0.9);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: start;
+      margin-bottom: 26px;
+    }
+
+    .card-title {
+      margin: 0;
+      font-size: 1.65rem;
+    }
+
+    .price-box {
+      text-align: right;
+      font-family: Arial, sans-serif;
+      white-space: nowrap;
+    }
+
+    .old-price {
+      display: block;
+      font-size: 0.95rem;
+      color: #9c857c;
+      text-decoration: line-through;
+      margin-bottom: 4px;
+    }
+
+    .new-price {
+      display: block;
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: var(--accent-dark);
+    }
+
+    .tag {
+      display: inline-block;
+      margin-top: 6px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: rgba(200, 100, 63, 0.12);
+      color: var(--accent-dark);
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+
+    .info-block {
+      border-top: 1px solid var(--line);
+      padding-top: 22px;
+      margin-top: 22px;
+    }
+
+    .info-label {
+      margin: 0 0 10px;
+      font-family: Arial, sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-size: 0.78rem;
+      color: #8b7268;
+    }
+
+    .info-text {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      color: #44352f;
+      line-height: 1.7;
+    }
+
+    .deliverables {
+      margin: 24px 0 28px;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 12px;
+    }
+
+    .deliverables li {
+      display: flex;
+      gap: 14px;
+      padding: 14px 0;
+      border-bottom: 1px solid rgba(36, 23, 18, 0.07);
+      font-family: Arial, sans-serif;
+    }
+
+    .deliverables li:last-child {
+      border-bottom: none;
+    }
+
+    .badge {
+      width: 34px;
+      height: 34px;
+      flex: 0 0 34px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: #f3dfd5;
+      color: var(--accent-dark);
+      font-weight: 700;
+    }
+
+    .item-title {
+      display: block;
+      margin-bottom: 4px;
+      font-weight: 700;
+    }
+
+    .item-copy {
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .cta {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      padding: 18px 24px;
+      border-radius: 18px;
+      background: linear-gradient(180deg, var(--accent) 0%, var(--accent-dark) 100%);
+      color: #fff9f5;
+      text-decoration: none;
+      font-family: Arial, sans-serif;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      transition: transform 160ms ease, box-shadow 160ms ease;
+      box-shadow: 0 18px 34px rgba(159, 72, 42, 0.24);
+    }
+
+    .cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 24px 42px rgba(159, 72, 42, 0.28);
+    }
+
+    @media (max-width: 900px) {
+      .section {
+        grid-template-columns: 1fr;
+      }
+
+      .intro {
+        padding: 40px 28px;
+      }
+
+      .card {
+        padding: 28px 22px;
+      }
+
+      .points {
+        grid-template-columns: 1fr;
+      }
+
+      .card-top {
+        flex-direction: column;
+      }
+
+      .price-box {
+        text-align: left;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="section">
+    <section class="intro">
+      <span class="eyebrow">Oferta specjalna</span>
+      <h1>Co dokładnie otrzymasz?</h1>
+      <p class="lead">
+        Sekcja została zbudowana w podobnym klimacie do przykładu z Timecap: miękki premium look,
+        czytelna oferta, mocne korzyści i prosty przycisk, który prowadzi użytkownika dalej.
+      </p>
+
+      <ul class="points">
+        <li>Prywatny dostęp bez instalacji aplikacji</li>
+        <li>Gotowy format do wręczenia jako prezent</li>
+        <li>Układ nastawiony na emocje i prostotę</li>
+        <li>Nowoczesna karta oferty z czytelnym CTA</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <div>
+        <div class="card-top">
+          <div>
+            <p class="eyebrow">Pakiet digital</p>
+            <h2 class="card-title">Piękna forma, którą możesz wręczyć od razu</h2>
+          </div>
+
+          <div class="price-box">
+            <span class="old-price">99 zł</span>
+            <span class="new-price">49 zł</span>
+            <span class="tag">Promocja limitowana</span>
+          </div>
+        </div>
+
+        <div class="info-block">
+          <p class="info-label">Na maila otrzymujesz</p>
+          <p class="info-text">Prywatny link, kod QR oraz gotowy dostęp do strony, którą możesz od razu wysłać albo elegancko wręczyć.</p>
+        </div>
+
+        <ul class="deliverables">
+          <li>
+            <span class="badge">01</span>
+            <div>
+              <span class="item-title">Ekran startowy</span>
+              <span class="item-copy">Mocne pierwsze wrażenie, pytanie otwierające i subtelna animacja wejścia.</span>
+            </div>
+          </li>
+          <li>
+            <span class="badge">02</span>
+            <div>
+              <span class="item-title">Galeria wspomnień</span>
+              <span class="item-copy">Zdjęcia, krótkie opisy i ważne daty ułożone w emocjonalną historię.</span>
+            </div>
+          </li>
+          <li>
+            <span class="badge">03</span>
+            <div>
+              <span class="item-title">Licznik czasu</span>
+              <span class="item-copy">Sekcja pokazująca, ile już minęło albo ile zostało do konkretnego dnia.</span>
+            </div>
+          </li>
+          <li>
+            <span class="badge">04</span>
+            <div>
+              <span class="item-title">Quiz lub personalizacja</span>
+              <span class="item-copy">Dodatkowy element, który angażuje i sprawia, że całość jest bardziej osobista.</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <a class="cta" href="#kontakt">Chcę taki blok u siebie</a>
+    </section>
+  </main>
+</body>
+</html>
