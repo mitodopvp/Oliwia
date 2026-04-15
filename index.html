@@ -446,6 +446,77 @@
       opacity: 0.9;
     }
 
+    .stars-layer {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .shooting-star {
+      position: absolute;
+      width: 140px;
+      height: 2px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.95));
+      box-shadow: 0 0 12px rgba(255, 255, 255, 0.5);
+      opacity: 0;
+      transform: rotate(-25deg);
+      animation: shoot 5.8s linear infinite;
+    }
+
+    .shooting-star:nth-child(1) {
+      top: 14%;
+      left: -20%;
+      animation-delay: 0.2s;
+    }
+
+    .shooting-star:nth-child(2) {
+      top: 28%;
+      left: -26%;
+      width: 110px;
+      animation-delay: 2.1s;
+    }
+
+    .shooting-star:nth-child(3) {
+      top: 42%;
+      left: -24%;
+      width: 160px;
+      animation-delay: 1.2s;
+    }
+
+    .shooting-star:nth-child(4) {
+      top: 62%;
+      left: -30%;
+      width: 130px;
+      animation-delay: 3.4s;
+    }
+
+    @keyframes shoot {
+      0% {
+        opacity: 0;
+        transform: translate3d(0, 0, 0) rotate(-25deg);
+      }
+
+      8% {
+        opacity: 1;
+      }
+
+      28% {
+        opacity: 1;
+      }
+
+      40% {
+        opacity: 0;
+        transform: translate3d(420px, 220px, 0) rotate(-25deg);
+      }
+
+      100% {
+        opacity: 0;
+        transform: translate3d(420px, 220px, 0) rotate(-25deg);
+      }
+    }
+
     .entry-overlay.hidden {
       opacity: 0;
       visibility: hidden;
@@ -454,43 +525,28 @@
 
     .entry-card {
       width: 100%;
-      max-width: 420px;
-      padding: 20px 18px;
-      border-radius: 28px;
+      max-width: 360px;
+      padding: 18px;
+      border-radius: 24px;
       position: relative;
       z-index: 1;
-      background: linear-gradient(180deg, rgba(17, 16, 22, 0.9), rgba(8, 8, 10, 0.96));
-      border: 1px solid rgba(255, 247, 250, 0.12);
+      background: rgba(10, 10, 12, 0.72);
+      border: 1px solid rgba(255, 247, 250, 0.08);
       backdrop-filter: blur(18px);
       box-shadow:
         0 24px 80px rgba(0, 0, 0, 0.52),
         0 0 0 1px rgba(255, 205, 223, 0.04) inset;
     }
 
-    .entry-title {
-      font-family: Georgia, "Times New Roman", serif;
-      font-size: 2rem;
-      line-height: 1;
-      letter-spacing: -0.04em;
-    }
-
-    .entry-copy {
-      margin-top: 12px;
-      color: rgba(255, 247, 250, 0.88);
-      line-height: 1.6;
-      font-size: 0.97rem;
-    }
-
     .entry-actions {
       display: grid;
       gap: 10px;
-      margin-top: 16px;
+      margin-top: 10px;
     }
 
     .password-block {
       display: grid;
       gap: 10px;
-      margin-top: 16px;
     }
 
     .password-input {
@@ -512,13 +568,6 @@
       min-height: 20px;
       color: #ffd0db;
       font-size: 0.9rem;
-      line-height: 1.5;
-    }
-
-    .entry-hint {
-      margin-top: 10px;
-      color: var(--muted);
-      font-size: 0.88rem;
       line-height: 1.5;
     }
 
@@ -551,21 +600,21 @@
 </head>
 <body>
   <div class="entry-overlay" id="entryOverlay">
+    <div class="stars-layer" aria-hidden="true">
+      <span class="shooting-star"></span>
+      <span class="shooting-star"></span>
+      <span class="shooting-star"></span>
+      <span class="shooting-star"></span>
+    </div>
     <div class="entry-card">
-      <p class="overline">Dla Oliwii</p>
-      <h2 class="entry-title">Wejdź do naszej kapsuły.</h2>
-      <p class="entry-copy">
-        Wybierz spokojnie, jak chcesz wejść. Obie opcje otwierają normalnie stronę, tylko jedna od razu pokazuje Waszą piosenkę.
-      </p>
       <div class="password-block">
         <input class="password-input" id="passwordInput" type="password" placeholder="Wpisz hasło">
         <p class="password-error" id="passwordError"></p>
       </div>
       <div class="entry-actions">
-        <button class="button button-primary" id="enterWithMusic" type="button">Wejdź i włącz piosenkę</button>
-        <button class="button button-secondary" id="enterWithoutMusic" type="button">Wejdź bez muzyki</button>
+        <button class="button button-primary" id="enterWithoutMusic" type="button">Wejdź dalej</button>
+        <button class="button button-secondary" id="enterWithMusic" type="button">Wejdź z muzyką</button>
       </div>
-      <p class="entry-hint">Hasło jest potrzebne do wejścia. Muzyka zostaje na stronie, bez przerzucania od razu do aplikacji Spotify.</p>
     </div>
   </div>
 
