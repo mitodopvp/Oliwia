@@ -538,6 +538,14 @@
         0 0 0 1px rgba(255, 205, 223, 0.04) inset;
     }
 
+    .lock-text {
+      margin: 0 0 14px;
+      text-align: center;
+      color: rgba(255, 247, 250, 0.9);
+      font-size: 0.96rem;
+      line-height: 1.6;
+    }
+
     .entry-actions {
       display: grid;
       gap: 10px;
@@ -607,6 +615,7 @@
       <span class="shooting-star"></span>
     </div>
     <div class="entry-card">
+      <p class="lock-text">Wprowadź hasło aby przejść dalej</p>
       <div class="password-block">
         <input class="password-input" id="passwordInput" type="password" placeholder="Wpisz hasło">
         <p class="password-error" id="passwordError"></p>
