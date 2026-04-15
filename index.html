@@ -120,6 +120,7 @@
       display: flex;
       gap: 10px;
       margin-top: 22px;
+      flex-wrap: wrap;
     }
 
     .button {
@@ -223,6 +224,51 @@
       color: var(--accent-soft);
     }
 
+    .music-panel {
+      display: grid;
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .music-card {
+      padding: 16px;
+      border-radius: 22px;
+      background: rgba(255, 245, 248, 0.05);
+      border: 1px solid rgba(255, 245, 248, 0.08);
+    }
+
+    .music-meta {
+      display: grid;
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+
+    .music-kicker {
+      color: var(--accent-soft);
+      font-size: 0.78rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .music-title {
+      font-weight: 700;
+      font-size: 1.05rem;
+      line-height: 1.4;
+    }
+
+    .music-note {
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 0.92rem;
+    }
+
+    .spotify-frame {
+      width: 100%;
+      height: 152px;
+      border: 0;
+      border-radius: 18px;
+    }
+
     .memory-photo {
       margin-top: 18px;
       aspect-ratio: 4 / 5;
@@ -315,38 +361,81 @@
     .gallery-grid {
       margin-top: 18px;
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 10px;
+      grid-template-columns: 1fr;
+      gap: 18px;
     }
 
     .gallery-item {
-      position: relative;
-      overflow: hidden;
-      border-radius: 22px;
-      aspect-ratio: 3 / 4;
-      background: #2a1b24;
+      display: grid;
+      gap: 10px;
     }
 
-    .gallery-item.tall {
-      grid-column: span 2;
+    .gallery-frame {
+      overflow: hidden;
+      border-radius: 26px;
+      background: #2a1b24;
       aspect-ratio: 4 / 5;
     }
 
-    .gallery-item img {
+    .gallery-frame img {
       height: 100%;
       object-fit: cover;
     }
 
     .gallery-caption {
-      position: absolute;
-      inset: auto 10px 10px 10px;
-      padding: 10px 12px;
-      border-radius: 16px;
-      background: rgba(12, 8, 11, 0.52);
-      border: 1px solid rgba(255, 247, 250, 0.08);
-      backdrop-filter: blur(10px);
-      font-size: 0.84rem;
-      line-height: 1.45;
+      padding: 0 4px;
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    .entry-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 10;
+      display: flex;
+      align-items: end;
+      padding: 18px;
+      background:
+        linear-gradient(180deg, rgba(12, 8, 11, 0.2) 0%, rgba(12, 8, 11, 0.94) 84%),
+        url("./assets/photo-1.png") center 18% / cover no-repeat;
+      transition: opacity 300ms ease, visibility 300ms ease;
+    }
+
+    .entry-overlay.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .entry-card {
+      width: 100%;
+      padding: 20px 18px;
+      border-radius: 28px;
+      background: rgba(20, 15, 19, 0.58);
+      border: 1px solid rgba(255, 247, 250, 0.12);
+      backdrop-filter: blur(18px);
+      box-shadow: var(--shadow);
+    }
+
+    .entry-title {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 2rem;
+      line-height: 1;
+      letter-spacing: -0.04em;
+    }
+
+    .entry-copy {
+      margin-top: 12px;
+      color: rgba(255, 247, 250, 0.88);
+      line-height: 1.6;
+      font-size: 0.97rem;
+    }
+
+    .entry-actions {
+      display: grid;
+      gap: 10px;
+      margin-top: 16px;
     }
 
     .footer-note {
@@ -371,16 +460,26 @@
       }
 
       .gallery-grid {
-        grid-template-columns: repeat(4, minmax(0, 1fr));
-      }
-
-      .gallery-item.tall {
-        grid-column: span 2;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
       }
     }
   </style>
 </head>
 <body>
+  <div class="entry-overlay" id="entryOverlay">
+    <div class="entry-card">
+      <p class="overline">Dla Oliwii</p>
+      <h2 class="entry-title">Wejdź do naszej kapsuły.</h2>
+      <p class="entry-copy">
+        Otwórz stronę z naszą piosenką w tle i zobacz wszystko, co tu dla Ciebie przygotowałem.
+      </p>
+      <div class="entry-actions">
+        <button class="button button-primary" id="enterWithMusic" type="button">Wejdź i włącz piosenkę</button>
+        <button class="button button-secondary" id="enterWithoutMusic" type="button">Wejdź bez muzyki</button>
+      </div>
+    </div>
+  </div>
+
   <main class="page">
     <section class="hero">
       <div class="hero-content">
@@ -393,6 +492,27 @@
         <div class="hero-actions">
           <a class="button button-primary" href="#licznik">Zobacz licznik</a>
           <a class="button button-secondary" href="#quiz">Nasz quiz</a>
+        </div>
+
+        <div class="music-panel" id="music">
+          <div class="music-card">
+            <div class="music-meta">
+              <span class="music-kicker">Nasza piosenka</span>
+              <span class="music-title">Kliknij play i niech to leci razem z całą stroną.</span>
+            </div>
+            <p class="music-note">
+              Na telefonach Spotify zwykle blokuje pełny autoplay bez kliknięcia, więc dodałem wejście,
+              które od razu prowadzi do odpalenia piosenki i zostawia Ci player na stronie.
+            </p>
+            <iframe
+              id="spotifyFrame"
+              class="spotify-frame"
+              src="https://open.spotify.com/embed/track/11ICdguilo4gnRVPWfIgVG?utm_source=generator&theme=0"
+              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+              loading="lazy"
+              title="Spotify player">
+            </iframe>
+          </div>
         </div>
       </div>
     </section>
@@ -505,33 +625,45 @@
         </div>
 
         <div class="gallery-grid">
-          <figure class="gallery-item tall">
-            <img src="./assets/photo-2.png" alt="Oliwia w lustrze">
+          <figure class="gallery-item">
+            <div class="gallery-frame">
+              <img src="./assets/photo-2.png" alt="Oliwia w lustrze">
+            </div>
             <figcaption class="gallery-caption">Ta energia, ten klimat i Ty.</figcaption>
           </figure>
 
           <figure class="gallery-item">
-            <img src="./assets/photo-4.jpg" alt="Portret Oliwii">
+            <div class="gallery-frame">
+              <img src="./assets/photo-4.jpg" alt="Portret Oliwii">
+            </div>
             <figcaption class="gallery-caption">Najpiękniejszy uśmiech.</figcaption>
           </figure>
 
           <figure class="gallery-item">
-            <img src="./assets/photo-5.jpg" alt="Wspólne czarno-białe zdjęcie">
+            <div class="gallery-frame">
+              <img src="./assets/photo-5.jpg" alt="Wspólne czarno-białe zdjęcie">
+            </div>
             <figcaption class="gallery-caption">Nasze śmieszne momenty też są najważniejsze.</figcaption>
           </figure>
 
           <figure class="gallery-item">
-            <img src="./assets/photo-6.jpg" alt="Bukiet kwiatów">
+            <div class="gallery-frame">
+              <img src="./assets/photo-6.jpg" alt="Bukiet kwiatów">
+            </div>
             <figcaption class="gallery-caption">Małe gesty, które znaczą bardzo dużo.</figcaption>
           </figure>
 
           <figure class="gallery-item">
-            <img src="./assets/photo-7.jpg" alt="Wspólne selfie w słońcu">
+            <div class="gallery-frame">
+              <img src="./assets/photo-7.jpg" alt="Wspólne selfie w słońcu">
+            </div>
             <figcaption class="gallery-caption">Spokój jest tam, gdzie jesteś Ty.</figcaption>
           </figure>
 
-          <figure class="gallery-item tall">
-            <img src="./assets/photo-8.jpg" alt="Zabawne wspólne zdjęcie">
+          <figure class="gallery-item">
+            <div class="gallery-frame">
+              <img src="./assets/photo-8.jpg" alt="Zabawne wspólne zdjęcie">
+            </div>
             <figcaption class="gallery-caption">Bo oprócz romantycznie, jest też po naszemu.</figcaption>
           </figure>
         </div>
@@ -584,6 +716,25 @@
     setInterval(updateCounter, 1000);
 
     const quizCards = document.querySelectorAll(".quiz-card");
+    const entryOverlay = document.getElementById("entryOverlay");
+    const enterWithMusic = document.getElementById("enterWithMusic");
+    const enterWithoutMusic = document.getElementById("enterWithoutMusic");
+    const spotifyFrame = document.getElementById("spotifyFrame");
+
+    function closeOverlay() {
+      entryOverlay.classList.add("hidden");
+      document.body.style.overflow = "";
+    }
+
+    document.body.style.overflow = "hidden";
+
+    enterWithMusic.addEventListener("click", () => {
+      spotifyFrame.scrollIntoView({ behavior: "smooth", block: "center" });
+      window.open("https://open.spotify.com/track/11ICdguilo4gnRVPWfIgVG?si=d866bd218d884e38", "_blank", "noopener");
+      closeOverlay();
+    });
+
+    enterWithoutMusic.addEventListener("click", closeOverlay);
 
     quizCards.forEach((card) => {
       const correctAnswer = card.dataset.correct;
