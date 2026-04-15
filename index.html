@@ -442,6 +442,34 @@
       margin-top: 16px;
     }
 
+    .password-block {
+      display: grid;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .password-input {
+      width: 100%;
+      border: 1px solid rgba(255, 247, 250, 0.14);
+      border-radius: 18px;
+      padding: 15px 16px;
+      background: rgba(255, 247, 250, 0.08);
+      color: var(--text);
+      font-size: 1rem;
+      outline: none;
+    }
+
+    .password-input::placeholder {
+      color: rgba(255, 247, 250, 0.46);
+    }
+
+    .password-error {
+      min-height: 20px;
+      color: #ffd0db;
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
     .entry-hint {
       margin-top: 10px;
       color: var(--muted);
@@ -484,11 +512,15 @@
       <p class="entry-copy">
         Wybierz spokojnie, jak chcesz wejść. Obie opcje otwierają normalnie stronę, tylko jedna od razu pokazuje Waszą piosenkę.
       </p>
+      <div class="password-block">
+        <input class="password-input" id="passwordInput" type="password" placeholder="Wpisz hasło">
+        <p class="password-error" id="passwordError"></p>
+      </div>
       <div class="entry-actions">
         <button class="button button-primary" id="enterWithMusic" type="button">Wejdź i włącz piosenkę</button>
         <button class="button button-secondary" id="enterWithoutMusic" type="button">Wejdź bez muzyki</button>
       </div>
-      <p class="entry-hint">Muzyka zostaje na stronie, bez przerzucania od razu do aplikacji Spotify.</p>
+      <p class="entry-hint">Hasło jest potrzebne do wejścia. Muzyka zostaje na stronie, bez przerzucania od razu do aplikacji Spotify.</p>
     </div>
   </div>
 
@@ -765,15 +797,28 @@
     const enterWithoutMusic = document.getElementById("enterWithoutMusic");
     const spotifyFrame = document.getElementById("spotifyFrame");
     const musicPanel = document.getElementById("music");
+    const passwordInput = document.getElementById("passwordInput");
+    const passwordError = document.getElementById("passwordError");
+    const pagePassword = "Kryska";
 
     function closeOverlay() {
       entryOverlay.classList.add("hidden");
       document.body.style.overflow = "";
     }
 
+    function isPasswordValid() {
+      const valid = passwordInput.value === pagePassword;
+      passwordError.textContent = valid ? "" : "To hasło nie pasuje. Spróbuj jeszcze raz.";
+      return valid;
+    }
+
     document.body.style.overflow = "hidden";
 
     enterWithMusic.addEventListener("click", () => {
+      if (!isPasswordValid()) {
+        passwordInput.focus();
+        return;
+      }
       closeOverlay();
       musicPanel.classList.remove("hidden");
       setTimeout(() => {
@@ -782,8 +827,24 @@
     });
 
     enterWithoutMusic.addEventListener("click", () => {
+      if (!isPasswordValid()) {
+        passwordInput.focus();
+        return;
+      }
       musicPanel.classList.add("hidden");
       closeOverlay();
+    });
+
+    passwordInput.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+        enterWithoutMusic.click();
+      }
+    });
+
+    passwordInput.addEventListener("input", () => {
+      if (passwordError.textContent) {
+        passwordError.textContent = "";
+      }
     });
 
     quizCards.forEach((card) => {
