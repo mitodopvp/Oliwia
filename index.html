@@ -230,6 +230,10 @@
       margin-top: 18px;
     }
 
+    .music-panel.hidden {
+      display: none;
+    }
+
     .music-card {
       padding: 16px;
       border-radius: 22px;
@@ -438,6 +442,13 @@
       margin-top: 16px;
     }
 
+    .entry-hint {
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 0.88rem;
+      line-height: 1.5;
+    }
+
     .footer-note {
       margin-top: 10px;
       text-align: center;
@@ -471,12 +482,13 @@
       <p class="overline">Dla Oliwii</p>
       <h2 class="entry-title">Wejdź do naszej kapsuły.</h2>
       <p class="entry-copy">
-        Otwórz stronę z naszą piosenką w tle i zobacz wszystko, co tu dla Ciebie przygotowałem.
+        Wybierz spokojnie, jak chcesz wejść. Obie opcje otwierają normalnie stronę, tylko jedna od razu pokazuje Waszą piosenkę.
       </p>
       <div class="entry-actions">
         <button class="button button-primary" id="enterWithMusic" type="button">Wejdź i włącz piosenkę</button>
         <button class="button button-secondary" id="enterWithoutMusic" type="button">Wejdź bez muzyki</button>
       </div>
+      <p class="entry-hint">Muzyka zostaje na stronie, bez przerzucania od razu do aplikacji Spotify.</p>
     </div>
   </div>
 
@@ -494,15 +506,14 @@
           <a class="button button-secondary" href="#quiz">Nasz quiz</a>
         </div>
 
-        <div class="music-panel" id="music">
+        <div class="music-panel hidden" id="music">
           <div class="music-card">
             <div class="music-meta">
               <span class="music-kicker">Nasza piosenka</span>
               <span class="music-title">Kliknij play i niech to leci razem z całą stroną.</span>
             </div>
             <p class="music-note">
-              Na telefonach Spotify zwykle blokuje pełny autoplay bez kliknięcia, więc dodałem wejście,
-              które od razu prowadzi do odpalenia piosenki i zostawia Ci player na stronie.
+              Player jest tu na miejscu, więc można normalnie wejść na stronę i puścić piosenkę bez wybijania do osobnej karty.
             </p>
             <iframe
               id="spotifyFrame"
@@ -608,6 +619,39 @@
               <button class="answer" type="button">Włoska</button>
               <button class="answer" type="button">Meksykańska</button>
               <button class="answer" type="button">Azjatycka</button>
+            </div>
+            <p class="quiz-feedback"></p>
+          </article>
+
+          <article class="quiz-card" data-correct="Ja">
+            <p class="quiz-question">Kto pierwszy napisał?</p>
+            <div class="answers">
+              <button class="answer" type="button">Oliwia</button>
+              <button class="answer" type="button">Ja</button>
+              <button class="answer" type="button">Napisaliśmy do siebie w tym samym czasie</button>
+              <button class="answer" type="button">Nikt, poznaliśmy się od razu na żywo</button>
+            </div>
+            <p class="quiz-feedback"></p>
+          </article>
+
+          <article class="quiz-card" data-correct="Czerwony">
+            <p class="quiz-question">Jaki kolor najbardziej mi się kojarzy z Tobą?</p>
+            <div class="answers">
+              <button class="answer" type="button">Niebieski</button>
+              <button class="answer" type="button">Czarny</button>
+              <button class="answer" type="button">Czerwony</button>
+              <button class="answer" type="button">Beżowy</button>
+            </div>
+            <p class="quiz-feedback"></p>
+          </article>
+
+          <article class="quiz-card" data-correct="Wszędzie byle by razem">
+            <p class="quiz-question">Gdzie chciałbym z Tobą pojechać?</p>
+            <div class="answers">
+              <button class="answer" type="button">Do Włoch</button>
+              <button class="answer" type="button">Nad morze</button>
+              <button class="answer" type="button">W góry</button>
+              <button class="answer" type="button">Wszędzie byle by razem</button>
             </div>
             <p class="quiz-feedback"></p>
           </article>
@@ -720,6 +764,7 @@
     const enterWithMusic = document.getElementById("enterWithMusic");
     const enterWithoutMusic = document.getElementById("enterWithoutMusic");
     const spotifyFrame = document.getElementById("spotifyFrame");
+    const musicPanel = document.getElementById("music");
 
     function closeOverlay() {
       entryOverlay.classList.add("hidden");
@@ -729,12 +774,17 @@
     document.body.style.overflow = "hidden";
 
     enterWithMusic.addEventListener("click", () => {
-      spotifyFrame.scrollIntoView({ behavior: "smooth", block: "center" });
-      window.open("https://open.spotify.com/track/11ICdguilo4gnRVPWfIgVG?si=d866bd218d884e38", "_blank", "noopener");
       closeOverlay();
+      musicPanel.classList.remove("hidden");
+      setTimeout(() => {
+        spotifyFrame.scrollIntoView({ behavior: "smooth", block: "center" });
+      }, 220);
     });
 
-    enterWithoutMusic.addEventListener("click", closeOverlay);
+    enterWithoutMusic.addEventListener("click", () => {
+      musicPanel.classList.add("hidden");
+      closeOverlay();
+    });
 
     quizCards.forEach((card) => {
       const correctAnswer = card.dataset.correct;
